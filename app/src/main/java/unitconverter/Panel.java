@@ -4,11 +4,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Panel extends JPanel {
-    private JLabel chooseUnitTypeLabel = new JLabel("Choose unit type");
+    //private JLabel chooseUnitTypeLabel = new JLabel("Choose unit type");
 
     public Panel(){
-        chooseUnitTypeLabel.setBounds(10, 10, 10, 10);
-        //chooseUnitTypeLabel.setAlignmentY(10);
-        this.add(chooseUnitTypeLabel);
+        System.out.println(Unit.Convert(0, Unit.KELVIN, Unit.CELSIUS));
     }
 }

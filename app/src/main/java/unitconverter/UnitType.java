@@ -1,6 +1,6 @@
 package unitconverter;
 
-public enum UnitTypes {
+public enum UnitType {
     LENGTH,
     TEMPERATURE,
     AREA,
