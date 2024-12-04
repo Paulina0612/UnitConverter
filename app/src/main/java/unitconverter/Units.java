@@ -1,5 +1,5 @@
 package unitconverter;
 
-class Units {
+public enum Units {
     
 }
