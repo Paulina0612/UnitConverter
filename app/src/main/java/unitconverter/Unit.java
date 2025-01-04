@@ -72,6 +72,17 @@ public enum Unit {
         }
     }
 
+    public static int GetAmountOfUnits(UnitType type){
+        int value=0;
+        int amount = Unit.values().length;
+
+        for(int i=0; i<amount; i++)
+            if(Unit.values()[i].GetUnitType() == type)
+                value++;
+
+        return value;
+    }
+
     public static double Convert(double value, Unit inUnit, Unit outUnit){
         value=value/inUnit.GetFactor();
         value=value*outUnit.GetFactor();
@@ -79,5 +90,5 @@ public enum Unit {
         value=value-outUnit.GetValueToAddtoBasicValue();
 
         return value;
-    }
+    } 
 }
