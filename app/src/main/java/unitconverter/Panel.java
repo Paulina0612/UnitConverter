@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Panel extends JPanel implements ItemListener, ActionListener {
-    private final int XYAllignment = 30, ComponentHeight = 30, DistanceBetweenComponents = 10;
     private JComboBox<String> unitType, inUnit = new JComboBox<>(), outUnit = new JComboBox<>();
     private JTextField inValue, outValue;
     private JButton button;
@@ -74,6 +73,8 @@ public class Panel extends JPanel implements ItemListener, ActionListener {
     }
 
     private void AddComponents(){
+        final int XYAllignment = 30, ComponentHeight = 30, DistanceBetweenComponents = 10;
+
         // Adding Combo Boxes
         unitType.setBounds(XYAllignment+120, XYAllignment, 
             150, ComponentHeight);
@@ -117,6 +118,10 @@ public class Panel extends JPanel implements ItemListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-       
+        double output = Unit.Convert(Double.parseDouble(inValue.getText()), 
+                            Unit.GetUnit(inUnit.getSelectedItem().toString()), 
+                            Unit.GetUnit(outUnit.getSelectedItem().toString()));
+
+        outValue.setText(String.valueOf(output));
     }
 }

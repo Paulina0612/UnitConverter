@@ -3,11 +3,11 @@ package unitconverter;
 public enum Unit {
     // LENGTH
     METER(UnitType.LENGTH, 1, 0, "Meter", "m"),
-    KILOMETER(UnitType.LENGTH, 1000, 0, "Kilometer", "km"),
-    CENTIMETER(UnitType.LENGTH, 0.01, 0, "Centimeter", "cm"),
-    MILIMETER(UnitType.LENGTH, 0.001, 0, "Milimeter", "mm"),
-    MICROMETER(UnitType.LENGTH, 0.000001, 0, "Micrometer", "um"),
-    NANOMETER(UnitType.LENGTH, 0.000000001, 0, "Nanometer", "nm"),
+    KILOMETER(UnitType.LENGTH, 0.001, 0, "Kilometer", "km"),
+    CENTIMETER(UnitType.LENGTH, 100, 0, "Centimeter", "cm"),
+    MILIMETER(UnitType.LENGTH, 1000, 0, "Milimeter", "mm"),
+    MICROMETER(UnitType.LENGTH, 1000000, 0, "Micrometer", "um"),
+    NANOMETER(UnitType.LENGTH, 1000000000, 0, "Nanometer", "nm"),
 
     // TEMPERATURE
     CELSIUS(UnitType.TEMPERATURE, 1, 0, "Celsius", "°C"),
@@ -91,4 +91,12 @@ public enum Unit {
 
         return value;
     } 
+
+    public static Unit GetUnit(String shortage){
+        for(int i=0; i<Unit.values().length; i++)
+            if(shortage == Unit.values()[i].shortage)
+                return Unit.values()[i];
+
+        return null; 
+    }
 }
