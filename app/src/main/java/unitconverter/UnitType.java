@@ -17,4 +17,12 @@ public enum UnitType {
     public String GetName(){
         return name;
     }
+
+    public static UnitType GetUnitType(String name){
+        for(int i=0; i<UnitType.values().length; i++)
+            if(name == UnitType.values()[i].name)
+                return UnitType.values()[i];
+
+        return null; 
+    }
 }

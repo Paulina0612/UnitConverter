@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 public class Panel extends JPanel implements ItemListener, ActionListener {
     private final int XYAllignment = 30, ComponentHeight = 30, DistanceBetweenComponents = 10;
-    private JComboBox<String> unitType, inUnit, outUnit;
+    private JComboBox<String> unitType, inUnit = new JComboBox<>(), outUnit = new JComboBox<>();
     private JTextField inValue, outValue;
     private JButton button;
     private JLabel unitTypeLabel, inValueLabel, outValueLabel;
@@ -42,8 +42,24 @@ public class Panel extends JPanel implements ItemListener, ActionListener {
     }
 
     private void GenerateUnitComboBoxes(){
-        inUnit = new JComboBox<>();
-        outUnit = new JComboBox<>();
+        UnitType currentUnitType = UnitType.GetUnitType(unitType.getSelectedItem().toString());
+        int amountOfUnits = Unit.GetAmountOfUnits(currentUnitType);
+        String units [] = new String[amountOfUnits];
+        int counter = 0;
+
+        for(int i=0; i<Unit.values().length; i++){
+            if(Unit.values()[i].GetUnitType().equals(currentUnitType)){
+                units[counter] = Unit.values()[i].GetShortage();
+                counter++;
+            }
+        }
+
+        inUnit.removeAllItems();
+        outUnit.removeAllItems();
+        for(int i=0; i<amountOfUnits; i++){
+            inUnit.addItem(units[i]);
+            outUnit.addItem(units[i]);
+        }
     }
 
     private void GenerateTextFields(){
@@ -96,7 +112,7 @@ public class Panel extends JPanel implements ItemListener, ActionListener {
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        
+        GenerateUnitComboBoxes();
     }
 
     @Override
