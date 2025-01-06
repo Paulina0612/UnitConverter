@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Panel extends JPanel implements ItemListener, ActionListener {
+public class Panel extends JPanel implements ItemListener, ActionListener{
     private JComboBox<String> unitType, inUnit = new JComboBox<>(), outUnit = new JComboBox<>();
     private JTextField inValue, outValue;
     private JButton button;
@@ -73,55 +73,73 @@ public class Panel extends JPanel implements ItemListener, ActionListener {
     }
 
     private void AddComponents(){
-        final int XYAllignment = 30, ComponentHeight = 30, DistanceBetweenComponents = 10;
+        final int XYAllignment = 30;
+        final int ComponentHeight = 30;
+        final int DistanceBetweenComponents = 10;
+        final int ChoosingUnitTypeHeight = XYAllignment;
+        final int InputHeight = XYAllignment+ComponentHeight+DistanceBetweenComponents;
+        final int OutputHeight = XYAllignment+ComponentHeight*2+DistanceBetweenComponents*2;
+        final int ConvertionButtonHeight = XYAllignment+ComponentHeight*3+DistanceBetweenComponents*3;
 
         // Adding Combo Boxes
-        unitType.setBounds(XYAllignment+120, XYAllignment, 
-            150, ComponentHeight);
-        inUnit.setBounds(XYAllignment+280, XYAllignment+ComponentHeight+DistanceBetweenComponents, 
-            100, ComponentHeight);
-        outUnit.setBounds(XYAllignment+280, XYAllignment+ComponentHeight*2+DistanceBetweenComponents*2, 
-            100, ComponentHeight);
+        unitType.setBounds(XYAllignment+120, ChoosingUnitTypeHeight, 150, ComponentHeight);
+        inUnit.setBounds(XYAllignment+280, InputHeight, 100, ComponentHeight);
+        outUnit.setBounds(XYAllignment+280, OutputHeight, 100, ComponentHeight);
         this.add(unitType);
         this.add(inUnit);
         this.add(outUnit);
         
         // Adding Text Fields
-        inValue.setBounds(XYAllignment+120, XYAllignment+ComponentHeight+DistanceBetweenComponents, 
-            150, ComponentHeight);
-        outValue.setBounds(XYAllignment+120, XYAllignment+ComponentHeight*2+DistanceBetweenComponents*2, 
-            150, ComponentHeight);
+        inValue.setBounds(XYAllignment+120, InputHeight, 150, ComponentHeight);
+        outValue.setBounds(XYAllignment+120, OutputHeight, 150, ComponentHeight);
         this.add(inValue);
         this.add(outValue);
         
         // Adding Labels
-        unitTypeLabel.setBounds(XYAllignment, XYAllignment, 
-            200, ComponentHeight);
-        inValueLabel.setBounds(XYAllignment+70, XYAllignment+ComponentHeight+DistanceBetweenComponents, 
-            200, ComponentHeight);
-        outValueLabel.setBounds(XYAllignment+60, XYAllignment+ComponentHeight*2+DistanceBetweenComponents*2, 
-            200, ComponentHeight);
+        unitTypeLabel.setBounds(XYAllignment, XYAllignment, 200, ComponentHeight);
+        inValueLabel.setBounds(XYAllignment+70, InputHeight, 200, ComponentHeight);
+        outValueLabel.setBounds(XYAllignment+60, OutputHeight, 200, ComponentHeight);
         this.add(unitTypeLabel);
         this.add(inValueLabel);
         this.add(outValueLabel);
 
         // Adding Button
-        button.setBounds(XYAllignment, XYAllignment+ComponentHeight*3+DistanceBetweenComponents*3, 
-            380, ComponentHeight);
+        button.setBounds(XYAllignment, ConvertionButtonHeight, 380, ComponentHeight);
         this.add(button);
+    }
+
+    private boolean IsNumeric(String string){
+        try {
+            Double.parseDouble(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private void Convertion(){
+        if(!inValue.getText().isBlank() && IsNumeric(inValue.getText())){
+            double output = Unit.Convert(Double.parseDouble(inValue.getText()), 
+                                Unit.GetUnit(inUnit.getSelectedItem().toString()), 
+                                Unit.GetUnit(outUnit.getSelectedItem().toString()));
+
+            outValue.setText(String.valueOf(output));
+        }
+        else outValue.setText(String.valueOf(0));
     }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        GenerateUnitComboBoxes();
+        if(e.getSource() == unitType){
+            inValue.setText(String.valueOf(0));
+            outValue.setText(String.valueOf(0));
+            GenerateUnitComboBoxes();
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        double output = Unit.Convert(Double.parseDouble(inValue.getText()), 
-                            Unit.GetUnit(inUnit.getSelectedItem().toString()), 
-                            Unit.GetUnit(outUnit.getSelectedItem().toString()));
-
-        outValue.setText(String.valueOf(output));
+        if(e.getSource() == button)
+            Convertion();
     }
 }
